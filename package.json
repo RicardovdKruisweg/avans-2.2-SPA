@@ -4,8 +4,11 @@
   "description": "Single Page WebApplication for 2.2 Avans made in react",
   "main": "server.js",
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
+    "client": "npm start --prefix client",
     "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
