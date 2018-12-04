@@ -38,6 +38,7 @@ router.delete('/:id', (req, res) => {
                 user.remove().then(() => res.json({ success: true}));
             }
             else{
+                console.log('invalid pass')
                 res.json({ succes: false, error: "Password did not match"});
             }
         })

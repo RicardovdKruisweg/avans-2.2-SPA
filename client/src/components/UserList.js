@@ -12,7 +12,11 @@ class UserList extends Component {
     }
 
     onDeleteClick = id => {
-        this.props.deleteUser(id);
+        const user = {
+            username: 'jaboi',
+            password: 'ricardo123'
+        }
+        this.props.deleteUser(id, user);
     }
 
     render() {
@@ -21,14 +25,14 @@ class UserList extends Component {
             <Container>
                 <ListGroup>
                    <TransitionGroup className="user-list">
-                        {users.map(({ id, username }) => (
-                            <CSSTransition key={id} timeout={500} classNames="fade">
+                        {users.map(({ _id, username }) => (
+                            <CSSTransition key={_id} timeout={500} classNames="fade">
                                 <ListGroupItem>
                                     <Button 
                                         className="remove-btn" 
                                         color="danger"
                                         size="sm"
-                                        onClick={this.onDeleteClick.bind(this, id)}>
+                                        onClick={this.onDeleteClick.bind(this, _id)}>
                                         &times;
                                     </Button>
                                     { username }

@@ -1,20 +1,17 @@
-import uuid from 'uuid';
-import { GET_USERS, ADD_USER, DELETE_USER } from '../actions/types';
+import { GET_USERS, ADD_USER, DELETE_USER, USERS_LOADING } from '../actions/types';
 
 const initialState = {
-    users: [
-        { id: uuid(), username: "Ricardo" },
-        { id: uuid(), username: "kappa" },
-        { id: uuid(), username: "lmao" },
-        { id: uuid(), username: "kek" }
-    ]
+    users: [],
+    loading: false
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
         case GET_USERS:
             return { 
-                ...state
+                ...state,
+                users: action.payload,
+                loading: false
             }
         case ADD_USER:
             return {
@@ -24,7 +21,12 @@ export default function(state = initialState, action) {
         case DELETE_USER:
             return {
                 ...state,
-                users: state.users.filter(user => user.id !== action.payload)
+                users: state.users.filter(user => user._id !== action.payload)
+            }
+        case USERS_LOADING:
+            return {
+                ...state,
+                loading: true
             }
         default: 
             return state;

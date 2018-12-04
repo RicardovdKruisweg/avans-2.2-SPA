@@ -10,7 +10,6 @@ import {
     Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import uuid from 'uuid';
 import { addUser } from '../actions/userActions';
 
 class UserModal extends Component {
@@ -33,8 +32,8 @@ class UserModal extends Component {
         e.preventDefault();
 
         const newUser = {
-            id: uuid(),
-            username: this.state.name
+            username: this.state.name,
+            password: 'ricardo123'
         }
 
         // Add User via addUser action
