@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/RicardovdKruisweg/avans-2.2-SPA#readme",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "concurrently": "^4.1.0",

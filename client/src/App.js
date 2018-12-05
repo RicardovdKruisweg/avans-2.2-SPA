@@ -11,6 +11,8 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+
+// TODO: Check if token is valid : (VALID) return App  (INVALID) return SignIn Component
 class App extends Component {
   render() {
     return (
