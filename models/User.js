@@ -27,15 +27,9 @@ const UserSchema = new Schema({
     }
     //friends: [this],
 });
+
+UserSchema.set('toJSON', { virtuals: true });
 // Embedding over referencing: Expect more GETS
 // TODO: Add feature to enable friends (Probably self reference)
-
-UserSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
-UserSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
-};
-
 
 module.exports = mongoose.model('user', UserSchema);

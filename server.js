@@ -1,43 +1,32 @@
+require('rootpath')();
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const path = require('path');
-
-const users = require('./api/routes/users');
-const groups = require('./api/routes/groups');
-
 const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const jwt = require('middleware/jwt');
+const errorHandler = require('middleware/errorHandler');
 
-// Bodyparser Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
-// DB Config
-const db = require('./config/keys').mongoURI;
+// use JWT auth to secure the api
+app.use(jwt());
 
-// Connect to mongo
-mongoose
-    .connect(db,
-        {
-            useNewUrlParser: true,
-            useCreateIndex: true,
-            useFindAndModify: false
-        }
-    )
-    .then( () => console.log('MongoDB Connected...'))
-    .catch(err => console.log(err));
+// api routes
+app.use('/users', require('./api/routes/users'));
 
-// Use routes
-app.use('/api/users', users);
-app.use('/api/groups', groups);
+// global error handler
+app.use(errorHandler);
 
 // Serve static assets if in production
 if(process.env.NODE_ENV === 'production') {
-    // set staic folder
-    app.use(express.static('client/build'));
+  // set staic folder
+  app.use(express.static('client/build'));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    })
+  app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  })
 }
 
 const port = process.env.PORT || 5000;

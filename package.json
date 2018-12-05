@@ -24,13 +24,19 @@
   "homepage": "https://github.com/RicardovdKruisweg/avans-2.2-SPA#readme",
   "dependencies": {
     "bcrypt": "^3.0.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
     "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.4.0",
     "mocha": "^5.2.0",
-    "mongoose": "^5.3.14"
+    "mongoose": "^5.3.14",
+    "react-router": "^4.3.1",
+    "rootpath": "^0.1.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.7"

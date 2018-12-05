@@ -3,10 +3,10 @@ const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId
 
 // Model
-const Group = require('../../models/Group');
+const Group = require('models/Group');
 
 // Helper(s)
-const userHelper = require('../helpers/userHelper');
+const userController = require('controllers/user');
 
 //@route    /api/groups/
 //@desc     returns a list with all groups
@@ -24,8 +24,8 @@ router.post('/', async (req, res) => {
         // Define variables
         const members = req.body.members;
         const name = req.body.name;
-        const membersArray = await userHelper.getUsersByList(members);
-        const owner = await userHelper.getUserById(req.body.owner);
+        const membersArray = await userController.getUsersByList(members);
+        const owner = await userController.getUserById(req.body.owner);
         // Create New Group
         const newGroup = new Group({
             name: name,
