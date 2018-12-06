@@ -1,3 +1,4 @@
+/*
 import axios from 'axios';
 import { GET_USERS, ADD_USER, DELETE_USER, USERS_LOADING, USER_LOGIN, USER_LOGINFAILED } from './types';
 
@@ -61,3 +62,5 @@ export const login = (username, password) => dispatch => {
       }
     });
 }
+
+*/

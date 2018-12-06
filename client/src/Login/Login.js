@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { userActions } from '../actions';
+import { userActions } from '../_actions';
 
-class LoginPage extends Component {
+class Login extends Component {
     constructor(props) {
       super(props);
 
@@ -78,5 +78,5 @@ function mapStateToProps(state) {
   };
 }
 
-const connectedLoginPage = connect(mapStateToProps)(LoginPage);
-export { connectedLoginPage as LoginPage }; 
+const connectedLogin = connect(mapStateToProps)(Login);
+export { connectedLogin as Login }; 
