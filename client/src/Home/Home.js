@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
 
+import { Group } from '../Group';
+
 class Home extends React.Component {
     componentDidMount() {
         this.props.dispatch(userActions.getAll());
@@ -18,7 +20,7 @@ class Home extends React.Component {
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h1>Welkom {user.displayname}!</h1>
-                <p>You're logged in with React!!</p>
+                <Group />
                 <p>
                     <Link to="/login">Logout</Link>
                 </p>

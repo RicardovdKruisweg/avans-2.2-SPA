@@ -15,6 +15,7 @@ app.use(jwt());
 
 // api routes
 app.use('/users', require('./api/routes/users'));
+app.use('/groups', require('./api/routes/groups'));
 
 // global error handler
 app.use(errorHandler);

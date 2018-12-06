@@ -13,7 +13,6 @@ export const userService = {
 
 function login(username, password) {
     return axios.post(`/users/authenticate`, { username: username, password: password })
-        //.then(handleResponse)
         .then(user => {
             if (user.data.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -58,7 +57,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`/users/${user.id}`, requestOptions).then(handleResponse);;
+    return fetch(`/users/${user.id}`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

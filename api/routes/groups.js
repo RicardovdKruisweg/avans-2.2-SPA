@@ -1,56 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const ObjectId = require('mongoose').Types.ObjectId
+const groupController = require('../controllers/group');
 
-// Model
-const Group = require('models/Group');
-
-// Helper(s)
-const userController = require('controllers/user');
-
-//@route    /api/groups/
-//@desc     returns a list with all groups
-//@acces    private
-router.get('/', (req, res) => {
-    Group.find().then( groups => res.json(groups) )
-});
-
-
-// @route   /api/groups
-// @desc    Create a new group
-// @acces   private
-router.post('/', async (req, res) => {
-    try{
-        // Define variables
-        const members = req.body.members;
-        const name = req.body.name;
-        const membersArray = await userController.getUsersByList(members);
-        const owner = await userController.getUserById(req.body.owner);
-        // Create New Group
-        const newGroup = new Group({
-            name: name,
-            owner: owner,
-            members: membersArray
-        });
-        // Save New Group in Mongo
-        const group = await newGroup.save();
-        // Return Group In Json
-        res.json(group);
-    }
-    catch(ex){
-        console.error(ex);
-    }
-});
-
-router.get('/user/:id', async (req, res) => {
-    try{
-        const id = req.params.id;
-        const groups = await Group.find({ $or: [{ 'members' : new ObjectId(id) },{ 'owner' : new ObjectId(id) }] });
-        res.json(groups);
-    }
-    catch(ex){
-        console.error(ex);
-    }
-});
+// routes
+router.post('/', create);
+router.get('/:id', getById);
+router.put('/:id', update);
+router.delete('/:id', _delete);
 
 module.exports = router;
+
+function getById(req, res, next) {
+  groupController.getById(req.params.id)
+      .then(group => group ? res.json(group) : res.sendStatus(404))
+      .catch(err => next(err));
+}
+
+function create () {
+
+}
+
+function update () {
+
+}
+
+function _delete () {
+  
+}

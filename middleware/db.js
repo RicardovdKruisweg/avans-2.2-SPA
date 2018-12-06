@@ -11,5 +11,6 @@ mongoose.connect(config.mongoURI,
 mongoose.Promise = global.Promise;
 
 module.exports = {
-    User: require('../models/User')
+    User: require('../models/User'),
+    Group: require('../models/Group')
 };

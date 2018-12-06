@@ -10,9 +10,12 @@ import {
     Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addUser } from '../actions/userActions';
+import { groupActions } from '../_actions';
+import { userId } from '../_helpers/user-id';
 
-class UserModal extends Component {
+const create = groupActions.create;
+
+class GroupModal extends Component {
     state = {
         modal: false,
         name: ''
@@ -31,13 +34,13 @@ class UserModal extends Component {
     onSubmit = e => { 
         e.preventDefault();
 
-        const newUser = {
-            username: this.state.name,
-            password: 'ricardo123'
+        const newGroup = {
+            name: this.state.name,
+            owner: userId()
         }
 
         // Add User via addUser action
-        this.props.addUser(newUser);
+        this.props. create(newGroup);
 
         // Close Modal
         this.toggle();
@@ -50,29 +53,29 @@ class UserModal extends Component {
                     color="dark"
                     style={{ marginBottom: '2rem' }}
                     onClick={ this.toggle }
-                >Add User</Button>
+                >Add Group</Button>
 
                 <Modal
                     isOpen={ this.state.modal }
                     toggle={ this.toggle }
                 >
-                    <ModalHeader toggle={ this.toggle }>Add To User List</ModalHeader>
+                    <ModalHeader toggle={ this.toggle }>Add To Group List</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={ this.onSubmit }>
                             <FormGroup>
-                                <Label for="user">User</Label>
+                                <Label for="group">Group</Label>
                                 <Input 
                                     type="text"
                                     name="name"
-                                    id="user"
-                                    placeholder="Add new user"
+                                    id="group"
+                                    placeholder="Add new group"
                                     onChange={ this.onChange }
                                 />
                                 <Button
                                     color="dark"
                                     style={{ marginTop: '2rem' }}
                                     block
-                                >Add User</Button>
+                                >Add Group</Button>
                             </FormGroup>
                         </Form>
                     </ModalBody>
@@ -83,7 +86,7 @@ class UserModal extends Component {
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    group: state.group
 })
 
-export default connect(mapStateToProps, { addUser })(UserModal);
+export default connect(mapStateToProps, { create })(GroupModal);
