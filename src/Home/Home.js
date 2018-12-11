@@ -7,10 +7,6 @@ import { userActions } from '../_actions';
 import { Group } from '../Group';
 
 class Home extends React.Component {
-    componentDidMount() {
-        this.props.dispatch(userActions.getAll());
-    }
-
     handleDeleteUser(id) {
         return (e) => this.props.dispatch(userActions.delete(id));
     }

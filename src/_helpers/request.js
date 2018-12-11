@@ -1,20 +1,10 @@
 import axios     from 'axios'
 import { apiConstants } from '../_constants'
 
-
-
-/**
- * Create an Axios Client with defaults
- */
 const client = axios.create({
   baseURL: apiConstants.URL
 });
 
-
-
-/**
- * Request Wrapper with default success/error actions
- */
 const request = function(options) {
   const onSuccess = function(response) {
     console.debug('Request Successful!', response);

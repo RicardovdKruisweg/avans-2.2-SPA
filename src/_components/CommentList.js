@@ -14,7 +14,7 @@ export class CommentList extends Component{
         { typeof group.messages !== 'undefined' && 
           group.messages.map((message, index) =>
             <li key={index}>
-              <b>Author: </b>{message.content}
+              <b>{ message.author.displayname }: </b>{message.content}
             </li>
           )
         }

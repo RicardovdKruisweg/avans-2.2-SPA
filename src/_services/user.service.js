@@ -71,7 +71,11 @@ function getById(id) {
 
 // Post To Node With User Object
 function register(user) {
-  return axios.post(`${serverLink()}/users/register`, user);
+  return request({
+    url:    '/users/register',
+    method: 'POST',
+    data:   user
+  })
 }
 
 function update(user) {
