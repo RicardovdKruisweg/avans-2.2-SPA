@@ -2,24 +2,53 @@ import React, { Component } from 'react';
 import { groupActions } from '../_actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
+import socketIOClient from "socket.io-client";
 import { userId } from '../_helpers';
+import { apiConstants } from '../_constants';
+
+import io from 'socket.io-client';
+
 
 // Components
 import { MessageForm } from '../_components';
 import { CommentList } from '../_components';
 
 const comment = groupActions.comment;
+let socket;
 
 class Room extends Component{
+
+  constructor(props) {
+    super(props)
+
+    socket = io.connect(apiConstants.URL)
+
+    socket.on('new comment', (groupInfo) => {
+      this.addNewCommment(groupInfo);
+    })
+  }
 
   componentDidMount () {
     const groupId = this.props.match.params.id;
     this.props.dispatch(groupActions.getById(groupId));
   }
 
-  render () {
+  getItems = () => {
     const { groups } = this.props;
-    const group = groups.items;
+    return groups;
+  }
+
+  addNewCommment = groups => {
+    this.props.dispatch(groupActions.addComment(groups));
+  }
+
+  onSubmit = comment => {
+    this.props.dispatch(groupActions.comment(comment ,this.props.match.params.id, socket));
+  }
+
+  render () {
+    let groups = this.getItems();
+    let group = groups.items;
     if(group !== ''){
       return (
         <div>
@@ -29,7 +58,7 @@ class Room extends Component{
             <div>
               <h1>Welkom bij de groep: { group.name } </h1>
               <CommentList group={ group } />
-              <MessageForm groupId={ this.props.match.params.id } />
+              <MessageForm onSubmit={ this.onSubmit } groupId={ this.props.match.params.id } />
             </div>
           }
         </div>

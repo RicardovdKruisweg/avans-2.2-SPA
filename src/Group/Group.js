@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Input, Button } from 'reactstrap';
+import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 
 import { userId } from '../_helpers/user-id';
 import { groupActions } from '../_actions';
@@ -17,22 +17,22 @@ class Group extends Component {
   render() {
     const { groups } = this.props;
     return (
-      <div>
+      <Container>
         <h3 >Dit zijn jouw groepen: </h3 >
         { groups.loading && <em>Loading groups...</em> }
         { groups.error && <span className="text-danger">ERROR: {groups.error}</span> }
         { groups.items &&
-          <ul>
+          <ListGroup>
             {groups.items.map((group, index) =>
-            <li key={ group.id }>
+            <ListGroupItem key={ group.id }>
               <NavLink to={`/group/${group._id}`} activeClassName="room-selected"><div className='room-name'>{ group.name }</div></NavLink>
-            </li>
+            </ListGroupItem>
             )}
-          </ul>
+          </ListGroup>
         }
         { groups.items == '' && <li>Helaas zit je nog niet in een group</li> }
         <GroupModal />
-      </div>
+      </Container>
     );
     
   }

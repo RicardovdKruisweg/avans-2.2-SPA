@@ -23,7 +23,7 @@ export class AppNavbar extends Component {
     render() {
         return (
             <div>
-                <Navbar vertical color="dark" dark expand="sm" className="mb-5">
+                <Navbar vertical color="dark" dark expand="sm">
                     <Container>
                         <NavbarBrand href="/">R</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />

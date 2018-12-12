@@ -1,6 +1,8 @@
 import axios from 'axios';
 import request from '../_helpers/request';
 import { authHeader } from '../_helpers/auth-header';
+import { apiConstants } from '../_constants';
+import socketIOClient from "socket.io-client";
 
 export const groupService = {
   getMy,
@@ -34,7 +36,10 @@ function getById (id) {
 }
 
 
-function comment (comment, groupId) {
+function comment (comment, groupId, socket) {
+  return socket.emit('comment', comment ,groupId)
+  
+  /*
   return request({
     url:    `/groups/comment/${groupId}`,
     method: 'POST',
@@ -43,12 +48,17 @@ function comment (comment, groupId) {
       comment
     }
   })
-  .then(user => {
-    console.log(comment);
+  .then(comment => {
     return comment;
-  });
+  });*/
+
 }
 
 function create (group) {
-
+  return request({
+    url:      '/groups/',
+    method:   'POST',
+    headers:  authHeader(),
+    data:     group
+  })
 }

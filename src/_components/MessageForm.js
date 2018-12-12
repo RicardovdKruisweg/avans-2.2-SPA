@@ -23,9 +23,9 @@ class MessageForm extends Component {
         const newComment = {
             content: this.state.message,
             author: userId()
-        }
-        //alert(this.props.groupId);
-        this.props.comment(newComment, this.props.groupId);
+        } 
+        //this.props.comment(newComment, this.props.groupId);
+        if(typeof this.props.onSubmit === 'function') this.props.onSubmit(newComment);
     }
 
     render() {

@@ -9,7 +9,8 @@ export const groupActions = {
     update,
     delete: _delete,
     getById,
-    comment
+    comment,
+    addComment
 };
 
 function getMy (id) {
@@ -29,7 +30,6 @@ function getMy (id) {
 }
 
 function getById (id) {
-  console.log("Action: " + id);
   return dispatch => {
     dispatch(request(id));
     groupService.getById(id)
@@ -44,33 +44,38 @@ function getById (id) {
   function failure(error) { return { type: groupConstants.GETBYID_FAILURE, error } }
 }
 
-function comment(comment, groupId) {
-  console.log("Actions!" + groupId)
+function comment(comment, groupId, socket) {
+  console.log(comment)
   return dispatch => {
-      dispatch(request(comment));
-
-      groupService.comment(comment, groupId)
-          .then(
-              comment => { 
-                  console.log(comment);
-                  dispatch(success());
-                  dispatch(alertActions.success('Comment successful'));
-              },
-              error => {
-                console.log(error);
-                  dispatch(failure(error));
-                  dispatch(alertActions.error(error));
-              }
-          );
+      //dispatch(request(comment));
+      const value = groupService.comment(comment, groupId, socket);
+      //dispatch(success());
   };
 
-  function request(comment) { return { type: groupConstants.COMMENT_REQUEST, comment } }
-  function success(comment) { return { type: groupConstants.COMMENT_SUCCESS, comment } }
+  function request(value) { return { type: groupConstants.COMMENT_REQUEST, value } }
+  function success(value) { return { type: groupConstants.COMMENT_SUCCESS, value } }
   function failure(error) { return { type: groupConstants.COMMENT_FAILURE, error } }
 }
 
 function create (group) {
-  alert(`Hello: ${group.owner}, thanks for creating the group: ${group.name}`);
+  return dispatch => {
+    dispatch(request(group));
+
+    groupService.create(group)
+        .then(
+            group => { 
+                dispatch(success(group));
+                dispatch(alertActions.success('group successful'));
+            },
+            error => {
+                dispatch(failure(error));
+                dispatch(alertActions.error(error.data.message));
+            }
+        );
+  };
+  function request(group) { return { type: groupConstants.CREATE_REQUEST, group } }
+  function success(group) { return { type: groupConstants.CREATE_SUCCESS, group } }
+  function failure(error) { return { type: groupConstants.CREATE_FAILURE, error } }
 }
 
 function update () {
@@ -79,6 +84,14 @@ function update () {
 
 function _delete () {
 
+}
+
+
+function addComment(groups){
+  return {
+    type: groupConstants.COMMENT_SUCCESS,
+    groups: groups
+  }
 }
 
 

@@ -14,7 +14,7 @@ class Home extends React.Component {
     render() {
         const { user } = this.props;
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div>
                 <h1>Welkom {user.displayname}!</h1>
                 <Group />
                 <p>

@@ -1,11 +1,24 @@
 import { groupConstants } from '../_constants';
 
-export function groups(state = {}, action) {
+const initialState = {
+  items: [],
+  loading: false,
+  error: null
+};
+
+export function groups(state = initialState, action) {
   switch (action.type) {
     case groupConstants.CREATE_REQUEST:
-      return { registering: true };
+      return { 
+        ...state,
+        loading: true 
+      };
     case groupConstants.CREATE_SUCCESS:
-      return {};
+      return {  
+        ...state,
+        loading: false,
+        items: [action.group, ...state.items]
+      };
     case groupConstants.CREATE_FAILURE:
       return {};
     case groupConstants.GETMY_REQUEST:
@@ -14,34 +27,49 @@ export function groups(state = {}, action) {
       };
     case groupConstants.GETMY_SUCCESS:
       return {
+        ...state,
+        loading: false,
         items: action.groups
       };
     case groupConstants.GETMY_FAILURE:
-      return { 
+      return {
+        ...state,
         error: action.error
       };
     case groupConstants.GETBYID_REQUEST:
       return {
+        ...state,
         loading: true
       };
     case groupConstants.GETBYID_SUCCESS:
       return {
+        ...state,
+        loading: false,
         items: action.groups
       };
     case groupConstants.GETBYID_FAILURE:
       return { 
+        ...state,
+        loading: false,
         error: action.error
       };
     case groupConstants.COMMENT_REQUEST:
       return {
+        ...state,
         loading: true
       };
     case groupConstants.COMMENT_SUCCESS:
+      console.log("reducer");
+      console.log(action.groups);
       return {
-        items: action.groups
+        ...state,
+        items: action.groups,
+        loading: false
       };
     case groupConstants.COMMENT_FAILURE:
       return { 
+        ...state,
+        loading: false,
         error: action.error
       };
     default:
