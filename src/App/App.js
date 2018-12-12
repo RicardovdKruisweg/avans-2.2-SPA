@@ -11,6 +11,7 @@ import { Home } from '../Home';
 import { Login } from '../Login';
 import { Register } from '../Register';
 import { Room } from '../Room';
+import { Profile } from '../Profile';
 
 // Components
 import { AppNavbar } from '../_components';
@@ -30,22 +31,23 @@ class App extends React.Component {
         const { alert } = this.props;
         return (
           <div>
-            <AppNavbar />
-            <Jumbotron fluid> 
-              <Container>
-                {alert.message &&
-                  <div className={`alert ${alert.type}`}>{alert.message}</div>
-                }
-                <Router history={history}>
-                  <div>
+            <Router history={history}>
+              <div>
+                <AppNavbar />
+                <Jumbotron fluid> 
+                  <Container>
+                    {alert.message &&
+                      <div className={`alert ${alert.type}`}>{alert.message}</div>
+                    }
                     <PrivateRoute exact path="/" component={Home} />
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Register} />
                     <Route path="/group/:id" component={Room} />
-                  </div>
-                </Router>
-              </Container>
-            </Jumbotron>
+                    <Route path="/profile" component={Profile} />
+                  </Container>
+                </Jumbotron>
+              </div>
+            </Router>
           </div>
         );
     }

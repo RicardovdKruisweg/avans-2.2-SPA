@@ -7,6 +7,7 @@ export const userActions = {
     login,
     logout,
     register,
+    update,
     delete: _delete
 };
 
@@ -39,28 +40,48 @@ function logout() {
 }
 
 function register(user) {
-    return dispatch => {
-        dispatch(request(user));
+  return dispatch => {
+    dispatch(request(user));
 
-        userService.register(user)
-            .then(
-                user => { 
-                    console.log(user);
-                    dispatch(success());
-                    history.push('/login');
-                    dispatch(alertActions.success('Registration successful'));
-                },
-                error => {
-                  console.log(error);
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error.data.message));
-                }
-            );
-    };
+    userService.register(user)
+      .then(
+      user => { 
+        dispatch(success());
+        history.push('/login');
+        dispatch(alertActions.success('Registration successful'));
+      },
+      error => {
+        dispatch(failure(error));
+        dispatch(alertActions.error(error.data.message));
+      }
+    );
+  };
 
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+  function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+  function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+  function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function update(userId, displayname, oldPassword, newPassword){
+  return dispatch => {
+    dispatch(request());
+
+    userService.update(userId, displayname, oldPassword, newPassword)
+      .then(
+      user => { 
+        dispatch(success(user));
+        dispatch(alertActions.success('Update successful'));
+      },
+      error => {
+        dispatch(failure(error));
+        dispatch(alertActions.error(error.data.message));
+      }
+    );
+  };
+
+  function request(user) { return { type: userConstants.UPDATE_REQUEST, user } }
+  function success(user) { return { type: userConstants.UPDATE_SUCCESS, user } }
+  function failure(error) { return { type: userConstants.UPDATE_FAILURE, error } }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

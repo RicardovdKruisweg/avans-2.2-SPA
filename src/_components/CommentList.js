@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 
 export class CommentList extends Component{
 
@@ -10,15 +11,15 @@ export class CommentList extends Component{
     // Check if messages is defined before rendering
     const group = this.props.group;
     return (
-      <ul>
+      <ListGroup>
         { typeof group.messages !== 'undefined' && 
           group.messages.map((message, index) =>
-            <li key={index}>
-              <b>{ message.author.displayname }: </b>{message.content}
-            </li>
+            <ListGroupItem key={index}>
+              <img style={{ borderRadius: '50%', maxWidth: '30px', marginRight: '5px'}} src={ message.author.profilePicture }/><b>{ message.author.displayname }: </b>{message.content}
+            </ListGroupItem>
           )
         }
-      </ul>
+      </ListGroup>
     )
   }
 }

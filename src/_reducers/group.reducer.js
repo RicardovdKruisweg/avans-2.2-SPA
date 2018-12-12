@@ -34,6 +34,7 @@ export function groups(state = initialState, action) {
     case groupConstants.GETMY_FAILURE:
       return {
         ...state,
+        loading: false,
         error: action.error
       };
     case groupConstants.GETBYID_REQUEST:
@@ -59,8 +60,6 @@ export function groups(state = initialState, action) {
         loading: true
       };
     case groupConstants.COMMENT_SUCCESS:
-      console.log("reducer");
-      console.log(action.groups);
       return {
         ...state,
         items: action.groups,
@@ -72,7 +71,57 @@ export function groups(state = initialState, action) {
         loading: false,
         error: action.error
       };
+    case groupConstants.UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case groupConstants.UPDATE_SUCCESS:
+      const newItems = updateObjectInArray(state.items, action);
+      return {
+        ...state,
+        loading: false,
+        items: newItems
+      }
+    case groupConstants.UPDATE_FAILURE:
+      return { 
+        ...state,
+        loading: false,
+        error: action.error
+      };
+    case groupConstants.DELETE_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case groupConstants.DELETE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        items: state.items.filter(item => item._id !== action.payload)
+      }
+    case groupConstants.DELETE_FAILURE:
+      return { 
+        ...state,
+        loading: false,
+        error: action.error
+      };
     default:
       return state
   }
+}
+
+function updateObjectInArray(array, action) {
+  return array.map((item, index) => {
+    if (item._id !== action.payload._id) {
+      // This isn't the item we care about - keep it as-is
+      return item
+    }
+
+    // Otherwise, this is the one we want - return an updated value
+    return {
+      ...item,
+      ...action.payload
+    }
+  });
 }

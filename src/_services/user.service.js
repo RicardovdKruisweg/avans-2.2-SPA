@@ -57,7 +57,6 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`${serverLink()}/users`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {
@@ -66,7 +65,6 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(`${serverLink()}/users/${id}`, requestOptions).then(handleResponse);
 }
 
 // Post To Node With User Object
@@ -78,15 +76,19 @@ function register(user) {
   })
 }
 
-function update(user) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(`${serverLink()}/users/${user.id}`, requestOptions).then(handleResponse);
+function update(userId, displayname, oldPassword, newPassword) {
+  return request({
+    url: `users/${userId}`,
+    method: 'PUT',
+    headers: authHeader(),
+    data: {
+      displayname,
+      oldPassword,
+      newPassword
+    }
+  })
 }
+
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
@@ -95,20 +97,4 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(`${serverLink()}/users/${id}`, requestOptions).then(handleResponse);
-}
-
-function handleResponse(response) {
-  console.error(response);
-  if (!response.ok) {
-    if (response.status === 401) {
-      // auto logout if 401 response returned from api
-      logout();
-      window.location.reload(true);
-    }
-
-    const error = (response && response.message) || response.statusText;
-    return Promise.reject(error);
-  }
-  return response;
 }

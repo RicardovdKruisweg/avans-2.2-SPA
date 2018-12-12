@@ -9,6 +9,8 @@ export const groupService = {
   comment,
   create,
   getById,
+  update,
+  delete: _delete
 };
 
 function getMy (id) {
@@ -35,6 +37,24 @@ function getById (id) {
   });
 }
 
+function update(groupname, groupId){
+  return request({
+    url:      `/groups/${groupId}`,
+    method:   'PUT',
+    headers:  authHeader(),
+    data: {
+      name: groupname
+    }
+  })
+}
+
+function _delete(groupId) {
+  return request({
+    url:      `/groups/${groupId}`,
+    method:   'DELETE' ,
+    header:   authHeader()
+  })
+}
 
 function comment (comment, groupId, socket) {
   return socket.emit('comment', comment ,groupId)

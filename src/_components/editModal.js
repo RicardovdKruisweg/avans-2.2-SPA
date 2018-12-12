@@ -9,16 +9,11 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import { connect } from 'react-redux';
-import { groupActions } from '../_actions';
-import { userId } from '../_helpers/user-id';
 
-const create = groupActions.create;
-
-class GroupModal extends Component {
+export class EditModal extends Component {
   state = {
     modal: false,
-    name: ''
+    name: this.props.editValue
   }
 
   toggle = () => {
@@ -33,47 +28,43 @@ class GroupModal extends Component {
 
   onSubmit = e => { 
     e.preventDefault();
-
-    const newGroup = {
-      name: this.state.name,
-      owner: userId()
-    } 
-
-    this.props.create(newGroup);
-
-    this.toggle();
+    // Submit to Componenent that called this Modal
+    console.log("mdoal"+ this.props.editId  )
+    if(typeof this.props.onSubmit === 'function' && this.state.name !== '') this.props.onSubmit(this.state.name, this.props.editId);
+    this.toggle();  
   }
 
   render() {
+    const { editType, EditMessage } = this.props
     return (
       <div>
         <Button
-          color="dark"
-          style={{ marginBottom: '2rem' }}
+          color="success"
+          style={{ marginRight: '5px' }}
           onClick={ this.toggle }
-        >Add Group</Button>
+        >Edit</Button>
 
         <Modal
           isOpen={ this.state.modal }
           toggle={ this.toggle }
         >
-          <ModalHeader toggle={ this.toggle }>Add To Group List</ModalHeader>
+          <ModalHeader toggle={ this.toggle }>Edit { editType }</ModalHeader>
           <ModalBody>
             <Form onSubmit={ this.onSubmit }>
               <FormGroup>
-              <Label for="group">Group</Label>
+              <Label for="name">{ EditMessage } </Label>
               <Input 
                 type="text"
                 name="name"
-                id="group"
-                placeholder="Add new group"
+                id="name"
+                value={ this.state.name }
                 onChange={ this.onChange }
               />
               <Button
                 color="dark"
                 style={{ marginTop: '2rem' }}
                 block
-              >Add Group</Button>
+              >Edit { editType }</Button>
               </FormGroup>
             </Form>
           </ModalBody>
@@ -82,10 +73,3 @@ class GroupModal extends Component {
     )
   }
 }
-
-const mapStateToProps = state => ({
-  group: state.group
-})
-
-const connectedModal = connect(mapStateToProps, { create })(GroupModal);
-export { connectedModal as GroupModal }

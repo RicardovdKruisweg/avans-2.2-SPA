@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { groupActions } from '../_actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import socketIOClient from "socket.io-client";
-import { userId } from '../_helpers';
-import { apiConstants } from '../_constants';
-
 import io from 'socket.io-client';
 
+// Constants
+import { apiConstants } from '../_constants';
 
 // Components
 import { MessageForm } from '../_components';
@@ -52,7 +50,7 @@ class Room extends Component{
     if(group !== ''){
       return (
         <div>
-          { groups.loading && <em>Loading groupss...</em> }
+          { groups.loading && <em>Loading chat...</em> }
           { groups.error && <span className="text-danger">ERROR: {groups.error}</span> }
           { group &&
             <div>
