@@ -1,4 +1,5 @@
 import { groupConstants } from '../_constants';
+import { userConstants } from '../_constants';
 import { groupService } from '../_services';
 import { alertActions } from './';
 import { history } from '../_helpers';
@@ -10,7 +11,9 @@ export const groupActions = {
     delete: _delete,
     getById,
     comment,
-    addComment
+    addComment,
+    getAvailableUsers,
+    addUserToGroup
 };
 
 function getMy (id) {
@@ -84,6 +87,45 @@ function update (groupname, groupId) {
             error => {
                 dispatch(failure(groupConstants.UPDATE_FAILURE, error));
                 dispatch(alertActions.error(error.data.message));
+            }
+        );
+  };
+}
+
+function addUserToGroup (userId, groupId) {
+  return dispatch => {
+    dispatch(request(groupConstants.ADDUSER_REQUEST));
+    dispatch(request(userConstants.DELAVAILABLE_REQUEST));
+
+    groupService.addUserToGroup(userId, groupId)
+        .then(
+            groups => { 
+              dispatch(success(groupConstants.ADDUSER_SUCCESS, groups));
+              dispatch(success(userConstants.DELAVAILABLE_SUCCESS, userId))
+              dispatch(alertActions.success('User successfully added to group'));
+            },
+            error => {
+              dispatch(failure(groupConstants.ADDUSER_FAILURE, error));
+              dispatch(failure(userConstants.DELAVAILABLE_FAILURE, error));
+              dispatch(alertActions.error(error.data.message));
+            }
+        );
+  };
+}
+
+function getAvailableUsers ( groupId) {
+  return dispatch => {
+    dispatch(request(groupConstants.GETAVAILABLEUSERS_REQUEST));
+
+    groupService.getAvailableUsers(groupId)
+        .then(
+            group => { 
+              dispatch(success(groupConstants.GETAVAILABLEUSERS_SUCCESS, group));
+              dispatch(alertActions.success('Group successfully editted'));
+            },
+            error => {
+              dispatch(failure(groupConstants.GETAVAILABLEUSERS_FAILURE, error));
+              dispatch(alertActions.error(error.data.message));
             }
         );
   };

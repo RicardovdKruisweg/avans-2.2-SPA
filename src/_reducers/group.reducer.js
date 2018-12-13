@@ -54,6 +54,23 @@ export function groups(state = initialState, action) {
         loading: false,
         error: action.error
       };
+    case groupConstants.ADDUSER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case groupConstants.ADDUSER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        items: action.payload
+      };
+    case groupConstants.ADDUSER_FAILURE:
+      return { 
+        ...state,
+        loading: false,
+        error: action.error
+      };
     case groupConstants.COMMENT_REQUEST:
       return {
         ...state,

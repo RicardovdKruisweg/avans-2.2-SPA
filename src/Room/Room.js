@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { groupActions } from '../_actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import io from 'socket.io-client';
+
+// Actions 
+import { groupActions, userActions } from '../_actions';
 
 // Constants
 import { apiConstants } from '../_constants';
 
 // Components
 import { MessageForm } from '../_components';
+import { AvailableUsers } from '../_components';
 import { CommentList } from '../_components';
 
 const comment = groupActions.comment;
@@ -29,6 +32,7 @@ class Room extends Component{
   componentDidMount () {
     const groupId = this.props.match.params.id;
     this.props.dispatch(groupActions.getById(groupId));
+    this.props.dispatch(userActions.getAvailableUsers(groupId));
   }
 
   getItems = () => {
@@ -44,6 +48,10 @@ class Room extends Component{
     this.props.dispatch(groupActions.comment(comment ,this.props.match.params.id, socket));
   }
 
+  addToGroup = id => {
+    this.props.dispatch(groupActions.addUserToGroup(id, this.props.match.params.id))
+  }
+
   render () {
     let groups = this.getItems();
     let group = groups.items;
@@ -57,6 +65,9 @@ class Room extends Component{
               <h1>Welkom bij de groep: { group.name } </h1>
               <CommentList group={ group } />
               <MessageForm onSubmit={ this.onSubmit } groupId={ this.props.match.params.id } />
+              { this.props.users &&
+                <AvailableUsers users={ this.props.users } onSubmit={ this.addToGroup }/>
+              }
             </div>
           }
         </div>
@@ -67,9 +78,10 @@ class Room extends Component{
 }
 
 function mapStateToProps(state){
-  const { groups } = state;
+  const { groups, users } = state;
   return {
-      groups
+      groups,
+      users
   };
 }
 

@@ -10,7 +10,9 @@ export const groupService = {
   create,
   getById,
   update,
-  delete: _delete
+  delete: _delete,
+  getAvailableUsers,
+  addUserToGroup
 };
 
 function getMy (id) {
@@ -48,11 +50,32 @@ function update(groupname, groupId){
   })
 }
 
+function getAvailableUsers(groupId){
+  return request({
+    url:      `/groups/users/${groupId}`,
+    method:   'GET',
+    headers:  authHeader(),
+  })
+}
+
+function addUserToGroup(userId, groupId){
+  return request({
+    url:      `/groups/users/`,
+    method:   'PUT',
+    headers:  authHeader(),
+    data: {
+      userId: userId,
+      groupId: groupId
+    }
+  }).then( groups => groups)
+}
+
 function _delete(groupId) {
+  console.log(groupId);
   return request({
     url:      `/groups/${groupId}`,
-    method:   'DELETE' ,
-    header:   authHeader()
+    method:   'POST' ,
+    headers:   authHeader()
   })
 }
 

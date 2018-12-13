@@ -1,48 +1,45 @@
 import { userConstants } from '../_constants';
 
-export function users(state = {}, action) {
+const initialState = {
+  items: [],
+  loading: false,
+  error: null
+};
+
+export function users(state = initialState, action) {
   switch (action.type) {
-    case userConstants.GETALL_REQUEST:
+    case userConstants.GETAVAILABLE_REQUEST:
       return {
+        ...state,
         loading: true
       };
-    case userConstants.GETALL_SUCCESS:
+    case userConstants.GETAVAILABLE_SUCCESS:
       return {
+        ...state,
+        loading: false,
         items: action.users
       };
-    case userConstants.GETALL_FAILURE:
+    case userConstants.GETAVAILABLE_FAILURE:
       return { 
+        ...state,
         error: action.error
       };
-    case userConstants.DELETE_REQUEST:
-      // add 'deleting:true' property to user being deleted
+    case userConstants.DELAVAILABLE_REQUEST:
       return {
         ...state,
-        items: state.items.map(user =>
-          user.id === action.id
-            ? { ...user, deleting: true }
-            : user
-        )
+        loading: true
       };
-    case userConstants.DELETE_SUCCESS:
-      // remove deleted user from state
-      return {
-        items: state.items.filter(user => user.id !== action.id)
-      };
-    case userConstants.DELETE_FAILURE:
-      // remove 'deleting:true' property and add 'deleteError:[error]' property to user 
+    case userConstants.DELAVAILABLE_SUCCESS:
+      console.log(state);
       return {
         ...state,
-        items: state.items.map(user => {
-          if (user.id === action.id) {
-            // make copy of user without 'deleting:true' property
-            const { deleting, ...userCopy } = user;
-            // return copy of user with 'deleteError:[error]' property
-            return { ...userCopy, deleteError: action.error };
-          }
-
-          return user;
-        })
+        loading: false,
+        items: state.items.filter(item => item._id !== action.payload)
+      };
+    case userConstants.DELAVAILABLE_FAILURE:
+      return { 
+        ...state,
+        error: action.error
       };
     default:
       return state

@@ -8,7 +8,8 @@ export const userActions = {
     logout,
     register,
     update,
-    delete: _delete
+    delete: _delete,
+    getAvailableUsers
 };
 
 function login(username, password) {
@@ -32,6 +33,27 @@ function login(username, password) {
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+
+function getAvailableUsers ( groupId) {
+  return dispatch => {
+    dispatch(request(userConstants.GETAVAILABLE_REQUEST));
+
+    userService.getAvailableUsers(groupId)
+        .then(
+            users => { 
+              dispatch(success(users));
+            },
+            error => {
+                dispatch(failure( error));
+                dispatch(alertActions.error(error.data.message));
+            }
+        );
+  };
+
+  function request(user) { return { type: userConstants.GETAVAILABLE_REQUEST, user } }
+  function success(users) { return { type: userConstants.GETAVAILABLE_SUCCESS, users } }
+  function failure(error) { return { type: userConstants.GETAVAILABLE_FAILURE, error } }
 }
 
 function logout() {
