@@ -73,7 +73,7 @@ class Profile extends Component {
               <FormGroup style={{display: this.state.updatePassword ? 'block' : 'none' }}>
                 <Label for="oldPassword">Huidig wachtwoord</Label>
                 <Input 
-                type="text"
+                type="password"
                 name="oldPassword"
                 id="oldPassword"
                 placeholder="Typ hier uw huidige wachtwoord"
@@ -83,7 +83,7 @@ class Profile extends Component {
               <FormGroup style={{display: this.state.updatePassword ? 'block' : 'none' }}>
                 <Label for="newPassword">Nieuw wachtwoord</Label>
                 <Input 
-                type="text"
+                type="password"
                 name="newPassword"
                 id="newPassword"
                 placeholder="Typ hier uw nieuwe wachtwoord"

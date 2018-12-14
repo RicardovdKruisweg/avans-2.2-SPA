@@ -28,12 +28,13 @@ class App extends React.Component {
     }
 
     render() {
-        const { alert } = this.props;
+        const { alert, authentication } = this.props;
+        console.log(authentication)
         return (
           <div>
             <Router history={history}>
               <div>
-                <AppNavbar />
+                { authentication.loggedIn && <AppNavbar /> }
                 <Jumbotron fluid> 
                   <Container>
                     {alert.message &&
@@ -54,9 +55,10 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { alert } = state;
+    const { alert, authentication } = state;
     return {
-        alert
+        alert,
+        authentication
     };
 }
 
