@@ -71,10 +71,9 @@ function addUserToGroup(userId, groupId){
 }
 
 function _delete(groupId) {
-  console.log(groupId);
   return request({
     url:      `/groups/${groupId}`,
-    method:   'POST' ,
+    method:   'DELETE' ,
     headers:   authHeader()
   })
 }
